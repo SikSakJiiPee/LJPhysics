@@ -38,7 +38,6 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	float maxB;
 
 
-	// Test one
 	axis.x = one.vertex[1].x - one.vertex[0].x;
 	axis.y = one.vertex[1].y - one.vertex[0].y;
 	normalize(axis);
@@ -50,7 +49,6 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 		return false;
 
 
-	// Test two
 	axis.x = one.vertex[3].x - one.vertex[0].x;
 	axis.y = one.vertex[3].y - one.vertex[0].y;
 	normalize(axis);
@@ -62,7 +60,6 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 		return false;
 
 
-	// Test three
 	axis.x = two.vertex[1].x - two.vertex[0].x;
 	axis.y = two.vertex[1].y - two.vertex[0].y;
 	normalize(axis);
@@ -74,7 +71,6 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 		return false;
 
 
-	// Test four
 	axis.x = two.vertex[3].x - two.vertex[0].x;
 	axis.y = two.vertex[3].y - two.vertex[0].y;
 	normalize(axis);

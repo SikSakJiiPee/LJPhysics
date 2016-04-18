@@ -5,33 +5,56 @@
 #include <SFML\System.hpp>
 
 #include "Collision.h"
+#include "Rectangle.h"
 
 int main()
 {
 	Collision collision;
 
 	sf::RenderWindow window(sf::VideoMode(600, 600), "LJPhysichs", sf::Style::Default);
+	window.setFramerateLimit(60);
 
-	sf::RectangleShape rectankkeli(sf::Vector2f(20, 20));
+	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 50, 50);
+	Rectangle rectankkeli2(sf::Vector2f(120, 0), sf::Vector2f(70, 50), 30, 20);
 	rectankkeli.setFillColor(sf::Color::Green);
-	rectankkeli.setPosition(sf::Vector2f(50, 100));
-	rectankkeli.setRotation(50);
-
-	sf::RectangleShape rectankkeli2(sf::Vector2f(20, 20));
 	rectankkeli2.setFillColor(sf::Color::Red);
-	rectankkeli2.setPosition(sf::Vector2f(62, 0));
-	rectankkeli2.setRotation(30);
+	rectankkeli2.setVelocity(10);
+
+	sf::Clock clock;
+	float dt;
+	sf::Event event;
 
 	while (window.isOpen())
 	{
-		if (collision.collide(&rectankkeli, &rectankkeli2))
+		while (window.pollEvent(event))
 		{
-			std::cout << "Jee!";
+			if (event.type == sf::Event::Closed || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+			{
+				window.close();
+			}
 		}
 
+		dt = clock.getElapsedTime().asSeconds();
 
-		rectankkeli.move(sf::Vector2f(0, 0.0));
-		rectankkeli2.move(sf::Vector2f(0, 0.01));
+		if (collision.collide(&rectankkeli, &rectankkeli2) && rectankkeli.getFillColor() != sf::Color::Blue)
+		{
+			rectankkeli.setFillColor(sf::Color::Blue);
+			rectankkeli2.setFillColor(sf::Color::Blue);
+		}
+		else if (!collision.collide(&rectankkeli, &rectankkeli2) && rectankkeli.getFillColor() != sf::Color::Green)
+		{
+			rectankkeli.setFillColor(sf::Color::Green);
+			rectankkeli2.setFillColor(sf::Color::Red);
+		}
+
+		if (rectankkeli.getPosition().y > window.getSize().y)
+		{
+			rectankkeli.setVelocity(rectankkeli.getVelocity() * -1);
+			rectankkeli2.setVelocity(rectankkeli2.getVelocity() * -1);
+		}
+
+		rectankkeli.drop(dt);
+		rectankkeli2.drop(dt);
 
 		window.clear(sf::Color::White);
 		window.draw(rectankkeli);
