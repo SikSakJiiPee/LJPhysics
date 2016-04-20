@@ -4,6 +4,8 @@
 #include <SFML\Window.hpp>
 #include <SFML\System.hpp>
 
+#include <iostream>
+
 struct rectangle
 {
 	sf::Vector2f vertex[4];

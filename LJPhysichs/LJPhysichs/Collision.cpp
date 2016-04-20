@@ -37,7 +37,6 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	float maxA;
 	float maxB;
 
-
 	axis.x = one.vertex[1].x - one.vertex[0].x;
 	axis.y = one.vertex[1].y - one.vertex[0].y;
 	normalize(axis);
@@ -45,9 +44,10 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	project(axis, &one, minA, maxA);
 	project(axis, &two, minB, maxB);
 
-	if (distance(minA, maxA, minB, maxB)>0.f)
+	if (distance(minA, maxA, minB, maxB) > 0.f)
+	{
 		return false;
-
+	}
 
 	axis.x = one.vertex[3].x - one.vertex[0].x;
 	axis.y = one.vertex[3].y - one.vertex[0].y;
@@ -56,9 +56,10 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	project(axis, &one, minA, maxA);
 	project(axis, &two, minB, maxB);
 
-	if (distance(minA, maxA, minB, maxB)>0.f)
+	if (distance(minA, maxA, minB, maxB) > 0.f)
+	{
 		return false;
-
+	}
 
 	axis.x = two.vertex[1].x - two.vertex[0].x;
 	axis.y = two.vertex[1].y - two.vertex[0].y;
@@ -67,9 +68,10 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	project(axis, &one, minA, maxA);
 	project(axis, &two, minB, maxB);
 
-	if (distance(minA, maxA, minB, maxB)>0.f)
+	if (distance(minA, maxA, minB, maxB) > 0.f)
+	{
 		return false;
-
+	}
 
 	axis.x = two.vertex[3].x - two.vertex[0].x;
 	axis.y = two.vertex[3].y - two.vertex[0].y;
@@ -78,17 +80,24 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	project(axis, &one, minA, maxA);
 	project(axis, &two, minB, maxB);
 
-	if (distance(minA, maxA, minB, maxB)>0.f)
+	if (distance(minA, maxA, minB, maxB) > 0.f)
+	{
 		return false;
+	}
+	else
+	{
+		return true;
+	}
 
-	return true;
 }
 
 
 void Collision::normalize(sf::Vector2f& vector) {
 	const float length = sqrt(vector.x * vector.x + vector.y * vector.y);
 	if (length == 0)
+	{
 		return;
+	}
 	vector.x = vector.x / length;
 	vector.y = vector.y / length;
 }
@@ -100,27 +109,31 @@ float Collision::dot(sf::Vector2f& vector1, sf::Vector2f& vector2)
 
 float Collision::distance(float minA, float maxA, float minB, float maxB)
 {
-	if (minB > maxA) return minB - maxA;
-	else return minA - maxB;
+	if (minB > maxA)
+	{
+		return minB - maxA;
+	}
+	return minA - maxB;
 }
-
-
-
 
 void  Collision::project(sf::Vector2f& axis, rectangle* _rectangle, float &min, float &max)
 {
-	float _dot = dot(axis, _rectangle->vertex[0]);
+	float myDot = dot(axis, _rectangle->vertex[0]);
 
-	min = _dot;
-	max = _dot;
+	min = myDot;
+	max = myDot;
 
 	for (short i = 1; i<4; i++)
 	{
-		_dot = dot(_rectangle->vertex[i], axis);
+		myDot = dot(_rectangle->vertex[i], axis);
 
-		if (_dot<min)
-			min = _dot;
-		else if (_dot>max)
-			max = _dot;
+		if (myDot < min)
+		{
+			min = myDot;
+		}
+		else if (myDot > max)
+		{
+			max = myDot;
+		}
 	}
 }

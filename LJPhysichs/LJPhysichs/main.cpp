@@ -16,8 +16,10 @@ int main()
 
 	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 50, 50);
 	Rectangle rectankkeli2(sf::Vector2f(120, 0), sf::Vector2f(70, 50), 30, 20);
+	Rectangle rectankkeli3(sf::Vector2f(400, 400), sf::Vector2f(100, 100), 0, 20);
 	rectankkeli.setFillColor(sf::Color::Green);
 	rectankkeli2.setFillColor(sf::Color::Red);
+	rectankkeli3.setFillColor(sf::Color::Magenta);
 	rectankkeli2.setVelocity(10);
 
 	sf::Clock clock;
@@ -56,9 +58,12 @@ int main()
 		rectankkeli.drop(dt);
 		rectankkeli2.drop(dt);
 
+		rectankkeli3.rotate(1);
+
 		window.clear(sf::Color::White);
 		window.draw(rectankkeli);
 		window.draw(rectankkeli2);
+		window.draw(rectankkeli3);
 		window.display();
 	}
 }

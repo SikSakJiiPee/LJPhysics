@@ -7,6 +7,7 @@ Rectangle::Rectangle() : sf::RectangleShape()
 
 Rectangle::Rectangle(sf::Vector2f pos, sf::Vector2f size, float angle, float m) : sf::RectangleShape()
 {
+	setOrigin(sf::Vector2f(size.x / 2, size.y / 2));
 	setPosition(pos);
 	setSize(size);
 	setRotation(angle);
