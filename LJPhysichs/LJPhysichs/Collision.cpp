@@ -86,6 +86,41 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	}
 	else
 	{
+		// Törmäys tapahtui
+
+		sf::Vector2f tempVecMin = one.vertex[0], tempVecMax = one.vertex[0];
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (one.vertex[i].x > tempVecMax.x)
+			{
+				tempVecMax.x = one.vertex[i].x;
+			}
+			if (one.vertex[i].x < tempVecMin.x)
+			{
+				tempVecMin.x = one.vertex[i].x;
+			}
+			if (one.vertex[i].y > tempVecMax.y)
+			{
+				tempVecMax.y = one.vertex[i].y;
+			}
+			if (one.vertex[i].y < tempVecMin.y)
+			{
+				tempVecMin.y = one.vertex[i].y;
+			}
+		}
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (tempVecMin.x < two.vertex[i].x && tempVecMax.x > two.vertex[i].x && tempVecMin.y < two.vertex[i].y && tempVecMax.y > two.vertex[i].y)
+			{
+				std::cout << two.vertex[i].x << "," << two.vertex[i].y << std::endl;
+				// Laskuvirhe pankissa sinun eduksesi, sait 200 markkaa
+				sf::Vector2f distanceToCenter = { abs(abs(rect2->getOrigin().x) - abs(two.vertex[i].x)), abs(abs(rect2->getOrigin().y) - abs(two.vertex[i].y)) };
+				std::cout << distanceToCenter.x << "," << distanceToCenter.y << std::endl;
+			}
+		}
+
 		return true;
 	}
 

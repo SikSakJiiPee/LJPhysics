@@ -14,8 +14,8 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(600, 600), "LJPhysichs", sf::Style::Default);
 	window.setFramerateLimit(60);
 
-	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 50, 50);
-	Rectangle rectankkeli2(sf::Vector2f(120, 0), sf::Vector2f(70, 50), 30, 20);
+	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 90, 50);
+	Rectangle rectankkeli2(sf::Vector2f(90, 0), sf::Vector2f(70, 50), 30, 20);
 	Rectangle rectankkeli3(sf::Vector2f(400, 400), sf::Vector2f(100, 100), 0, 20);
 	rectankkeli.setFillColor(sf::Color::Green);
 	rectankkeli2.setFillColor(sf::Color::Red);
@@ -65,5 +65,6 @@ int main()
 		window.draw(rectankkeli2);
 		window.draw(rectankkeli3);
 		window.display();
+		//system("pause");
 	}
 }
