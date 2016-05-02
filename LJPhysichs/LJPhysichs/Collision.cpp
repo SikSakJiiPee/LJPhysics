@@ -88,43 +88,76 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	{
 		// Törmäys tapahtui
 
-		sf::Vector2f tempVecMin = one.vertex[0], tempVecMax = one.vertex[0];
+		sf::Vector2f tempVecMin1 = one.vertex[0], tempVecMax1 = one.vertex[0];
 
 		for (int i = 0; i < 4; i++)
 		{
-			if (one.vertex[i].x > tempVecMax.x)
+			if (one.vertex[i].x > tempVecMax1.x)
 			{
-				tempVecMax.x = one.vertex[i].x;
+				tempVecMax1.x = one.vertex[i].x;
 			}
-			if (one.vertex[i].x < tempVecMin.x)
+			if (one.vertex[i].x < tempVecMin1.x)
 			{
-				tempVecMin.x = one.vertex[i].x;
+				tempVecMin1.x = one.vertex[i].x;
 			}
-			if (one.vertex[i].y > tempVecMax.y)
+			if (one.vertex[i].y > tempVecMax1.y)
 			{
-				tempVecMax.y = one.vertex[i].y;
+				tempVecMax1.y = one.vertex[i].y;
 			}
-			if (one.vertex[i].y < tempVecMin.y)
+			if (one.vertex[i].y < tempVecMin1.y)
 			{
-				tempVecMin.y = one.vertex[i].y;
+				tempVecMin1.y = one.vertex[i].y;
 			}
 		}
 
+		sf::Vector2f tempVecMin2 = two.vertex[0], tempVecMax2 = two.vertex[0];
+
+		for (int j = 0; j < 4; j++)
+		{
+			if (two.vertex[j].x > tempVecMax2.x)
+			{
+				tempVecMax2.x = two.vertex[j].x;
+			}
+			if (two.vertex[j].x < tempVecMin2.x)
+			{
+				tempVecMin2.x = two.vertex[j].x;
+			}
+			if (two.vertex[j].y > tempVecMax2.y)
+			{
+				tempVecMax2.y = two.vertex[j].y;
+			}
+			if (two.vertex[j].y < tempVecMin2.y)
+			{
+				tempVecMin2.y = two.vertex[j].y;
+			}
+		}
+
+
 		for (int i = 0; i < 4; i++)
 		{
-			if (tempVecMin.x < two.vertex[i].x && tempVecMax.x > two.vertex[i].x && tempVecMin.y < two.vertex[i].y && tempVecMax.y > two.vertex[i].y)
+			if (tempVecMin1.x < two.vertex[i].x && tempVecMax1.x > two.vertex[i].x && tempVecMin1.y < two.vertex[i].y && tempVecMax1.y > two.vertex[i].y)
 			{
-				std::cout << two.vertex[i].x << "," << two.vertex[i].y << std::endl;
-				// Laskuvirhe pankissa sinun eduksesi, sait 200 markkaa
-				sf::Vector2f distanceToCenter = { abs(abs(rect2->getOrigin().x) - abs(two.vertex[i].x)), abs(abs(rect2->getOrigin().y) - abs(two.vertex[i].y)) };
-				std::cout << distanceToCenter.x << "," << distanceToCenter.y << std::endl;
+				sf::Vector2f radius = { two.vertex[i].x - tempVecMin2.x - ((tempVecMax2.x - tempVecMin2.x) / 2), two.vertex[i].y - tempVecMin2.y - ((tempVecMax2.y - tempVecMin2.y) / 2) };
+				std::cout << radius.x << "," << radius.y << std::endl;
+			}
+			else if (tempVecMin1.x < one.vertex[i].x && tempVecMax2.x > one.vertex[i].x && tempVecMin2.y < one.vertex[i].y && tempVecMax2.y > one.vertex[i].y)
+			{
+				sf::Vector2f radius = { one.vertex[i].x - tempVecMin1.x - ((tempVecMax1.x - tempVecMin1.x) / 2), one.vertex[i].y - tempVecMin1.y - ((tempVecMax1.y - tempVecMin1.y) / 2) };
+				std::cout << radius.x << "," << radius.y << std::endl;
 			}
 		}
 
 		return true;
 	}
-
 }
+
+
+/*
+std::cout << two.vertex[i].x << "," << two.vertex[i].y << std::endl;
+// Laskuvirhe pankissa sinun eduksesi, sait 200 markkaa
+sf::Vector2f distanceToCenter = { abs(abs(rect2->getOrigin().x) - abs(two.vertex[i].x)), abs(abs(rect2->getOrigin().y) - abs(two.vertex[i].y)) };
+std::cout << distanceToCenter.x << "," << distanceToCenter.y << std::endl;
+*/
 
 
 void Collision::normalize(sf::Vector2f& vector) {

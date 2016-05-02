@@ -20,8 +20,8 @@ Rectangle::~Rectangle()
 
 void Rectangle::drop(float dt)
 {
-	velocity = velocity - gravity * dt;
-	setPosition(getPosition().x, getPosition().y + velocity * dt);
+	velocity.y = velocity.y - gravity * dt;
+	setPosition(getPosition().x, getPosition().y + velocity.y * dt);
 }
 
 void Rectangle::setMass(float m)
@@ -34,12 +34,12 @@ float Rectangle::getMass()
 	return mass;
 }
 
-void Rectangle::setVelocity(float v)
+void Rectangle::setVelocity(sf::Vector2f v)
 {
 	velocity = v;
 }
 
-float Rectangle::getVelocity()
+sf::Vector2f Rectangle::getVelocity()
 {
 	return velocity;
 }

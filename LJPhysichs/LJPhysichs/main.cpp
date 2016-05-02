@@ -14,13 +14,13 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(600, 600), "LJPhysichs", sf::Style::Default);
 	window.setFramerateLimit(60);
 
-	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 90, 50);
+	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 50, 50);
 	Rectangle rectankkeli2(sf::Vector2f(90, 0), sf::Vector2f(70, 50), 30, 20);
 	Rectangle rectankkeli3(sf::Vector2f(400, 400), sf::Vector2f(100, 100), 0, 20);
 	rectankkeli.setFillColor(sf::Color::Green);
 	rectankkeli2.setFillColor(sf::Color::Red);
 	rectankkeli3.setFillColor(sf::Color::Magenta);
-	rectankkeli2.setVelocity(10);
+	rectankkeli2.setVelocity(sf::Vector2f(10, 10));
 
 	sf::Clock clock;
 	float dt;
@@ -47,12 +47,6 @@ int main()
 		{
 			rectankkeli.setFillColor(sf::Color::Green);
 			rectankkeli2.setFillColor(sf::Color::Red);
-		}
-
-		if (rectankkeli.getPosition().y > window.getSize().y)
-		{
-			rectankkeli.setVelocity(rectankkeli.getVelocity() * -1);
-			rectankkeli2.setVelocity(rectankkeli2.getVelocity() * -1);
 		}
 
 		rectankkeli.drop(dt);

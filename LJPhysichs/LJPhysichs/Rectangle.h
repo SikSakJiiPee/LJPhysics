@@ -15,8 +15,8 @@ public:
 
 	void setMass(float m);
 	float getMass();
-	void setVelocity(float v);
-	float getVelocity();
+	void setVelocity(sf::Vector2f v);
+	sf::Vector2f getVelocity();
 	void setElasticity(float e);
 	float getElasticity();
 
@@ -24,7 +24,7 @@ public:
 private:
 	float mass = 10;
 	float elasticity = 0;
-	float velocity = 0;
+	sf::Vector2f velocity = { 0, 0 };
 
 };
 
