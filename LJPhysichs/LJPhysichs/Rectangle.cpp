@@ -18,12 +18,6 @@ Rectangle::~Rectangle()
 {
 }
 
-void Rectangle::drop(float dt)
-{
-	velocity.y = velocity.y - gravity * dt;
-	setPosition(getPosition().x, getPosition().y + velocity.y * dt);
-}
-
 void Rectangle::setMass(float m)
 {
 	mass = m;
@@ -60,4 +54,14 @@ void Rectangle::setElasticity(float e)
 float Rectangle::getElasticity()
 {
 	return elasticity;
+}
+
+bool Rectangle::getStatic()
+{
+	return staticRectangle;
+}
+
+void Rectangle::setStatic(bool s)
+{
+	staticRectangle = s;
 }

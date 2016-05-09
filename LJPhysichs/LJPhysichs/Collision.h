@@ -18,6 +18,7 @@ public:
 	~Collision();
 
 	bool collide(const sf::RectangleShape* rect, const sf::RectangleShape* rect2);
+	sf::Vector2f getCollisionVector(const sf::RectangleShape* rect, const sf::RectangleShape* rect2);
 
 private:
 	void project(sf::Vector2f& axis, rectangle* _rectangle, float &min, float &max);

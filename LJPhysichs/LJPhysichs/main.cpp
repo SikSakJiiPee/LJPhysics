@@ -6,9 +6,11 @@
 
 #include "Collision.h"
 #include "Rectangle.h"
+#include "World.h"
 
 int main()
 {
+	World world;
 	Collision collision;
 
 	sf::RenderWindow window(sf::VideoMode(600, 600), "LJPhysichs", sf::Style::Default);
@@ -17,10 +19,16 @@ int main()
 	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 50, 50);
 	Rectangle rectankkeli2(sf::Vector2f(90, 0), sf::Vector2f(70, 50), 30, 20);
 	Rectangle rectankkeli3(sf::Vector2f(400, 400), sf::Vector2f(100, 100), 0, 20);
-	rectankkeli.setFillColor(sf::Color::Green);
-	rectankkeli2.setFillColor(sf::Color::Red);
-	rectankkeli3.setFillColor(sf::Color::Magenta);
 	rectankkeli2.setVelocity(sf::Vector2f(10, 10));
+	rectankkeli3.setStatic(true);
+
+	rectankkeli.setFillColor(sf::Color::Green);
+	rectankkeli2.setFillColor(sf::Color::Green);
+	rectankkeli3.setFillColor(sf::Color::Green);
+
+	world.objects.push_back(rectankkeli);
+	world.objects.push_back(rectankkeli2);
+	world.objects.push_back(rectankkeli3);
 
 	sf::Clock clock;
 	float dt;
@@ -38,26 +46,15 @@ int main()
 
 		dt = clock.getElapsedTime().asSeconds();
 
-		if (collision.collide(&rectankkeli, &rectankkeli2) && rectankkeli.getFillColor() != sf::Color::Blue)
-		{
-			rectankkeli.setFillColor(sf::Color::Blue);
-			rectankkeli2.setFillColor(sf::Color::Blue);
-		}
-		else if (!collision.collide(&rectankkeli, &rectankkeli2) && rectankkeli.getFillColor() != sf::Color::Green)
-		{
-			rectankkeli.setFillColor(sf::Color::Green);
-			rectankkeli2.setFillColor(sf::Color::Red);
-		}
+		world.update(dt);
 
-		rectankkeli.drop(dt);
-		rectankkeli2.drop(dt);
-
-		rectankkeli3.rotate(1);
+		world.objects[2].rotate(1);
 
 		window.clear(sf::Color::White);
-		window.draw(rectankkeli);
-		window.draw(rectankkeli2);
-		window.draw(rectankkeli3);
+		for (int i = 0; i < world.objects.size(); i++)
+		{
+			window.draw(world.objects[i]);
+		}
 		window.display();
 		//system("pause");
 	}

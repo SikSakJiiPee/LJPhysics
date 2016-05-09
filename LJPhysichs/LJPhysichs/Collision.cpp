@@ -86,71 +86,58 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	}
 	else
 	{
-		// Törmäys tapahtui
-
-		sf::Vector2f tempVecMin1 = one.vertex[0], tempVecMax1 = one.vertex[0];
-
-		for (int i = 0; i < 4; i++)
-		{
-			if (one.vertex[i].x > tempVecMax1.x)
-			{
-				tempVecMax1.x = one.vertex[i].x;
-			}
-			if (one.vertex[i].x < tempVecMin1.x)
-			{
-				tempVecMin1.x = one.vertex[i].x;
-			}
-			if (one.vertex[i].y > tempVecMax1.y)
-			{
-				tempVecMax1.y = one.vertex[i].y;
-			}
-			if (one.vertex[i].y < tempVecMin1.y)
-			{
-				tempVecMin1.y = one.vertex[i].y;
-			}
-		}
-
-		sf::Vector2f tempVecMin2 = two.vertex[0], tempVecMax2 = two.vertex[0];
-
-		for (int j = 0; j < 4; j++)
-		{
-			if (two.vertex[j].x > tempVecMax2.x)
-			{
-				tempVecMax2.x = two.vertex[j].x;
-			}
-			if (two.vertex[j].x < tempVecMin2.x)
-			{
-				tempVecMin2.x = two.vertex[j].x;
-			}
-			if (two.vertex[j].y > tempVecMax2.y)
-			{
-				tempVecMax2.y = two.vertex[j].y;
-			}
-			if (two.vertex[j].y < tempVecMin2.y)
-			{
-				tempVecMin2.y = two.vertex[j].y;
-			}
-		}
-
-
-		for (int i = 0; i < 4; i++)
-		{
-			if (tempVecMin1.x < two.vertex[i].x && tempVecMax1.x > two.vertex[i].x && tempVecMin1.y < two.vertex[i].y && tempVecMax1.y > two.vertex[i].y)
-			{
-				sf::Vector2f radius = { two.vertex[i].x - tempVecMin2.x - ((tempVecMax2.x - tempVecMin2.x) / 2), two.vertex[i].y - tempVecMin2.y - ((tempVecMax2.y - tempVecMin2.y) / 2) };
-				std::cout << radius.x << "," << radius.y << std::endl;
-			}
-			else if (tempVecMin1.x < one.vertex[i].x && tempVecMax2.x > one.vertex[i].x && tempVecMin2.y < one.vertex[i].y && tempVecMax2.y > one.vertex[i].y)
-			{
-				sf::Vector2f radius = { one.vertex[i].x - tempVecMin1.x - ((tempVecMax1.x - tempVecMin1.x) / 2), one.vertex[i].y - tempVecMin1.y - ((tempVecMax1.y - tempVecMin1.y) / 2) };
-				std::cout << radius.x << "," << radius.y << std::endl;
-			}
-		}
-
 		return true;
 	}
 }
 
+sf::Vector2f Collision::getCollisionVector(const sf::RectangleShape* rect, const sf::RectangleShape* rect2)
+{
+	sf::Vector2f radius = { 0, 0 };
+
+	rectangle one;
+	rectangle two;
+
+	sf::Transform transform = rect->getTransform();
+	sf::FloatRect floatRect = rect->getLocalBounds();
+
+	one.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
+	one.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
+	one.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
+	one.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
+
+	transform = rect2->getTransform();
+	floatRect = rect2->getLocalBounds();
+
+	two.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
+	two.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
+	two.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
+	two.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
+
+	sf::Vector2f tempVecMin1 = one.vertex[0], tempVecMax1 = one.vertex[0];
+	sf::Vector2f tempVecMin2 = two.vertex[0], tempVecMax2 = two.vertex[0];
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (one.vertex[i].x > tempVecMax1.x){ tempVecMax1.x = one.vertex[i].x; }
+		if (one.vertex[i].x < tempVecMin1.x){ tempVecMin1.x = one.vertex[i].x; }
+		if (one.vertex[i].y > tempVecMax1.y){ tempVecMax1.y = one.vertex[i].y; }
+		if (one.vertex[i].y < tempVecMin1.y){ tempVecMin1.y = one.vertex[i].y; }
+		if (two.vertex[i].x > tempVecMax2.x){ tempVecMax2.x = two.vertex[i].x; }
+		if (two.vertex[i].x < tempVecMin2.x){ tempVecMin2.x = two.vertex[i].x; }
+		if (two.vertex[i].y > tempVecMax2.y){ tempVecMax2.y = two.vertex[i].y; }
+		if (two.vertex[i].y < tempVecMin2.y){ tempVecMin2.y = two.vertex[i].y; }
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (tempVecMin1.x < two.vertex[i].x && tempVecMax1.x > two.vertex[i].x && tempVecMin1.y < two.vertex[i].y && tempVecMax1.y > two.vertex[i].y)
+		{
+			radius = { two.vertex[i].x - tempVecMin2.x - ((tempVecMax2.x - tempVecMin2.x) / 2), two.vertex[i].y - tempVecMin2.y - ((tempVecMax2.y - tempVecMin2.y) / 2) };
+		}
+	}
+
+	return radius;
+}
 
 /*
 std::cout << two.vertex[i].x << "," << two.vertex[i].y << std::endl;
