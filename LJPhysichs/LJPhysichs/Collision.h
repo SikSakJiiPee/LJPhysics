@@ -5,6 +5,8 @@
 #include <SFML\System.hpp>
 
 #include <iostream>
+#include <algorithm>
+#include <math.h>
 
 struct rectangle
 {
@@ -18,7 +20,8 @@ public:
 	~Collision();
 
 	bool collide(const sf::RectangleShape* rect, const sf::RectangleShape* rect2);
-	sf::Vector2f getCollisionVector(const sf::RectangleShape* rect, const sf::RectangleShape* rect2);
+	float getCollisionAngle(const sf::RectangleShape* rect, const sf::RectangleShape* rect2);
+	//sf::Vector2f getCollisionVector(const sf::RectangleShape* rect, const sf::RectangleShape* rect2);
 
 private:
 	void project(sf::Vector2f& axis, rectangle* _rectangle, float &min, float &max);

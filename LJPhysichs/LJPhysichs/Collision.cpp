@@ -90,63 +90,6 @@ bool Collision::collide(const sf::RectangleShape* rect, const sf::RectangleShape
 	}
 }
 
-sf::Vector2f Collision::getCollisionVector(const sf::RectangleShape* rect, const sf::RectangleShape* rect2)
-{
-	sf::Vector2f radius = { 0, 0 };
-
-	rectangle one;
-	rectangle two;
-
-	sf::Transform transform = rect->getTransform();
-	sf::FloatRect floatRect = rect->getLocalBounds();
-
-	one.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
-	one.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
-	one.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
-	one.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
-
-	transform = rect2->getTransform();
-	floatRect = rect2->getLocalBounds();
-
-	two.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
-	two.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
-	two.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
-	two.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
-
-	sf::Vector2f tempVecMin1 = one.vertex[0], tempVecMax1 = one.vertex[0];
-	sf::Vector2f tempVecMin2 = two.vertex[0], tempVecMax2 = two.vertex[0];
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (one.vertex[i].x > tempVecMax1.x){ tempVecMax1.x = one.vertex[i].x; }
-		if (one.vertex[i].x < tempVecMin1.x){ tempVecMin1.x = one.vertex[i].x; }
-		if (one.vertex[i].y > tempVecMax1.y){ tempVecMax1.y = one.vertex[i].y; }
-		if (one.vertex[i].y < tempVecMin1.y){ tempVecMin1.y = one.vertex[i].y; }
-		if (two.vertex[i].x > tempVecMax2.x){ tempVecMax2.x = two.vertex[i].x; }
-		if (two.vertex[i].x < tempVecMin2.x){ tempVecMin2.x = two.vertex[i].x; }
-		if (two.vertex[i].y > tempVecMax2.y){ tempVecMax2.y = two.vertex[i].y; }
-		if (two.vertex[i].y < tempVecMin2.y){ tempVecMin2.y = two.vertex[i].y; }
-	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (tempVecMin1.x < two.vertex[i].x && tempVecMax1.x > two.vertex[i].x && tempVecMin1.y < two.vertex[i].y && tempVecMax1.y > two.vertex[i].y)
-		{
-			radius = { two.vertex[i].x - tempVecMin2.x - ((tempVecMax2.x - tempVecMin2.x) / 2), two.vertex[i].y - tempVecMin2.y - ((tempVecMax2.y - tempVecMin2.y) / 2) };
-		}
-	}
-
-	return radius;
-}
-
-/*
-std::cout << two.vertex[i].x << "," << two.vertex[i].y << std::endl;
-// Laskuvirhe pankissa sinun eduksesi, sait 200 markkaa
-sf::Vector2f distanceToCenter = { abs(abs(rect2->getOrigin().x) - abs(two.vertex[i].x)), abs(abs(rect2->getOrigin().y) - abs(two.vertex[i].y)) };
-std::cout << distanceToCenter.x << "," << distanceToCenter.y << std::endl;
-*/
-
-
 void Collision::normalize(sf::Vector2f& vector) {
 	const float length = sqrt(vector.x * vector.x + vector.y * vector.y);
 	if (length == 0)
@@ -192,3 +135,104 @@ void  Collision::project(sf::Vector2f& axis, rectangle* _rectangle, float &min, 
 		}
 	}
 }
+
+float Collision::getCollisionAngle(const sf::RectangleShape* rect, const sf::RectangleShape* rect2)
+{
+	rectangle one;
+	rectangle two;
+
+	sf::Transform transform = rect->getTransform();
+	sf::FloatRect floatRect = rect->getLocalBounds();
+
+	one.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
+	one.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
+	one.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
+	one.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
+
+	transform = rect2->getTransform();
+	floatRect = rect2->getLocalBounds();
+
+	two.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
+	two.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
+	two.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
+	two.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
+
+	sf::Vector2f tempVecMin1 = one.vertex[0], tempVecMax1 = one.vertex[0];
+	sf::Vector2f tempVecMin2 = two.vertex[0], tempVecMax2 = two.vertex[0];
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (one.vertex[i].x > tempVecMax1.x){ tempVecMax1.x = one.vertex[i].x; }
+		if (one.vertex[i].x < tempVecMin1.x){ tempVecMin1.x = one.vertex[i].x; }
+		if (one.vertex[i].y > tempVecMax1.y){ tempVecMax1.y = one.vertex[i].y; }
+		if (one.vertex[i].y < tempVecMin1.y){ tempVecMin1.y = one.vertex[i].y; }
+		if (two.vertex[i].x > tempVecMax2.x){ tempVecMax2.x = two.vertex[i].x; }
+		if (two.vertex[i].x < tempVecMin2.x){ tempVecMin2.x = two.vertex[i].x; }
+		if (two.vertex[i].y > tempVecMax2.y){ tempVecMax2.y = two.vertex[i].y; }
+		if (two.vertex[i].y < tempVecMin2.y){ tempVecMin2.y = two.vertex[i].y; }
+	}
+
+	sf::Vector2f point1, point2;
+	point1 = sf::Vector2f(tempVecMin1.x + (tempVecMax1.x - tempVecMin1.x) / 2, tempVecMin1.y + (tempVecMax1.y - tempVecMin1.y) / 2);
+	point2 = sf::Vector2f(tempVecMin2.x + (tempVecMax2.x - tempVecMin2.x) / 2, tempVecMin2.y + (tempVecMax2.y - tempVecMin2.y) / 2);
+
+	sf::Vector2f catheti = sf::Vector2f((point1.x - point2.x), (point1.y - point2.y));
+
+	float angle = atan(catheti.x / catheti.y);
+	return angle;
+
+	//float angledegree = angle * 180 / 3.14;
+	//std::cout << angledegree << std::endl;
+}
+
+
+/*
+sf::Vector2f Collision::getCollisionVector(const sf::RectangleShape* rect, const sf::RectangleShape* rect2)
+{
+sf::Vector2f radius = { 0, 0 };
+
+rectangle one;
+rectangle two;
+
+sf::Transform transform = rect->getTransform();
+sf::FloatRect floatRect = rect->getLocalBounds();
+
+one.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
+one.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
+one.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
+one.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
+
+transform = rect2->getTransform();
+floatRect = rect2->getLocalBounds();
+
+two.vertex[0] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top));
+two.vertex[1] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top));
+two.vertex[2] = transform.transformPoint(sf::Vector2f(floatRect.left + floatRect.width, floatRect.top + floatRect.height));
+two.vertex[3] = transform.transformPoint(sf::Vector2f(floatRect.left, floatRect.top + floatRect.height));
+
+sf::Vector2f tempVecMin1 = one.vertex[0], tempVecMax1 = one.vertex[0];
+sf::Vector2f tempVecMin2 = two.vertex[0], tempVecMax2 = two.vertex[0];
+
+for (int i = 0; i < 4; i++)
+{
+if (one.vertex[i].x > tempVecMax1.x){ tempVecMax1.x = one.vertex[i].x; }
+if (one.vertex[i].x < tempVecMin1.x){ tempVecMin1.x = one.vertex[i].x; }
+if (one.vertex[i].y > tempVecMax1.y){ tempVecMax1.y = one.vertex[i].y; }
+if (one.vertex[i].y < tempVecMin1.y){ tempVecMin1.y = one.vertex[i].y; }
+if (two.vertex[i].x > tempVecMax2.x){ tempVecMax2.x = two.vertex[i].x; }
+if (two.vertex[i].x < tempVecMin2.x){ tempVecMin2.x = two.vertex[i].x; }
+if (two.vertex[i].y > tempVecMax2.y){ tempVecMax2.y = two.vertex[i].y; }
+if (two.vertex[i].y < tempVecMin2.y){ tempVecMin2.y = two.vertex[i].y; }
+}
+
+for (int i = 0; i < 4; i++)
+{
+if (tempVecMin1.x < two.vertex[i].x && tempVecMax1.x > two.vertex[i].x && tempVecMin1.y < two.vertex[i].y && tempVecMax1.y > two.vertex[i].y)
+{
+radius = { two.vertex[i].x - tempVecMin2.x - ((tempVecMax2.x - tempVecMin2.x) / 2), two.vertex[i].y - tempVecMin2.y - ((tempVecMax2.y - tempVecMin2.y) / 2) };
+}
+}
+
+return radius;
+}
+*/

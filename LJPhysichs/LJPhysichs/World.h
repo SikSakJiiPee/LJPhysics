@@ -2,8 +2,11 @@
 
 #include "Rectangle.h"
 #include "Collision.h"
+#include "Physics.h"
 
 #include <vector>
+#include <algorithm>
+#include <math.h>
 
 class World
 {
@@ -13,15 +16,17 @@ public:
 
 	void update(float dt);
 
-	float getGravity();
-	void setGravity(const float g);
+	sf::Vector2f getGravity();
+	void setGravity(const sf::Vector2f g);
+	void collisionEffects(unsigned i, unsigned j);
+	void rotation(unsigned i, float dt);
 
 	std::vector<Rectangle>objects;
 
 private:
-	void collisionChecks(float dt);
+	void collisionChecks();
 
 	Collision collision;
-	float gravity = 9.80665;
+	sf::Vector2f gravity = { 0, 98.0665 };
 };
 

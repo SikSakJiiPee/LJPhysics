@@ -8,27 +8,30 @@
 #include "Rectangle.h"
 #include "World.h"
 
+#include <random>
+#include <math.h>
+
 int main()
 {
+	srand(time(NULL));
+
 	World world;
 	Collision collision;
 
-	sf::RenderWindow window(sf::VideoMode(600, 600), "LJPhysichs", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode(1200, 900), "LJPhysichs", sf::Style::Default);
 	window.setFramerateLimit(60);
 
-	Rectangle rectankkeli(sf::Vector2f(100, 100), sf::Vector2f(40, 50), 50, 50);
-	Rectangle rectankkeli2(sf::Vector2f(90, 0), sf::Vector2f(70, 50), 30, 20);
-	Rectangle rectankkeli3(sf::Vector2f(400, 400), sf::Vector2f(100, 100), 0, 20);
-	rectankkeli2.setVelocity(sf::Vector2f(10, 10));
-	rectankkeli3.setStatic(true);
-
-	rectankkeli.setFillColor(sf::Color::Green);
-	rectankkeli2.setFillColor(sf::Color::Green);
-	rectankkeli3.setFillColor(sf::Color::Green);
-
-	world.objects.push_back(rectankkeli);
-	world.objects.push_back(rectankkeli2);
-	world.objects.push_back(rectankkeli3);
+	Rectangle rectankkeli;
+	rectankkeli.setStatic(true);
+	rectankkeli.setSize(sf::Vector2f(20, 20));
+	rectankkeli.setFillColor(sf::Color::Black);
+	rectankkeli.setMass(999999);
+	rectankkeli.setElasticity(1);
+	for (int i = 0; i < 50; i++)
+	{
+		rectankkeli.setPosition(sf::Vector2f(rand() % 1200, rand() % 900));
+		world.objects.push_back(rectankkeli);
+	}
 
 	sf::Clock clock;
 	float dt;
@@ -42,20 +45,37 @@ int main()
 			{
 				window.close();
 			}
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				unsigned randomMass = rand() % 200;
+				sf::Vector2i mouse = sf::Mouse::getPosition(window);
+				Rectangle uusRectankkeli(sf::Vector2f(mouse), sf::Vector2f(50, 50), 20, sf::Vector2f(0, 0), 0.5, randomMass, sf::Color::Green);
+				uusRectankkeli.setOutlineThickness(1);
+				uusRectankkeli.setOutlineColor(sf::Color::Black);
+				world.objects.push_back(uusRectankkeli);
+			}
 		}
 
 		dt = clock.getElapsedTime().asSeconds();
+		clock.restart();
 
 		world.update(dt);
-
-		world.objects[2].rotate(1);
 
 		window.clear(sf::Color::White);
 		for (int i = 0; i < world.objects.size(); i++)
 		{
 			window.draw(world.objects[i]);
+			if (world.objects[i].getPosition().y > 1000)
+			{
+				std::cout << "Deleted object " << i << std::endl;
+				world.objects.erase(world.objects.begin() + i);
+				i--;
+			}
 		}
 		window.display();
+
+
 		//system("pause");
 	}
 }

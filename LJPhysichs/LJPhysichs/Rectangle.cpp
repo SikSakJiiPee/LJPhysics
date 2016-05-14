@@ -1,67 +1,22 @@
 #include "Rectangle.h"
 
 
-Rectangle::Rectangle() : sf::RectangleShape()
+Rectangle::Rectangle() : sf::RectangleShape(), Physics()
 {
 }
 
-Rectangle::Rectangle(sf::Vector2f pos, sf::Vector2f size, float angle, float m) : sf::RectangleShape()
+Rectangle::Rectangle(sf::Vector2f pos, sf::Vector2f size, float angle, sf::Vector2f vel, float e, float m, sf::Color c) : sf::RectangleShape(), Physics()
 {
 	setOrigin(sf::Vector2f(size.x / 2, size.y / 2));
 	setPosition(pos);
 	setSize(size);
 	setRotation(angle);
-	mass = m;
+	setFillColor(c);
+	setVelocity(vel);
+	setElasticity(e);
+	setMass(m);
 }
 
 Rectangle::~Rectangle()
 {
-}
-
-void Rectangle::setMass(float m)
-{
-	mass = m;
-}
-
-float Rectangle::getMass()
-{
-	return mass;
-}
-
-void Rectangle::setVelocity(sf::Vector2f v)
-{
-	velocity = v;
-}
-
-sf::Vector2f Rectangle::getVelocity()
-{
-	return velocity;
-}
-
-void Rectangle::setElasticity(float e)
-{
-	elasticity = e;
-	if (elasticity > 1)
-	{
-		elasticity = 1.0;
-	}
-	else if (elasticity < 0)
-	{
-		elasticity = 0.0;
-	}
-}
-
-float Rectangle::getElasticity()
-{
-	return elasticity;
-}
-
-bool Rectangle::getStatic()
-{
-	return staticRectangle;
-}
-
-void Rectangle::setStatic(bool s)
-{
-	staticRectangle = s;
 }
