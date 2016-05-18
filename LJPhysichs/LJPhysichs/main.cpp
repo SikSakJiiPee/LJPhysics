@@ -26,8 +26,13 @@ int main()
 	rectankkeli.setSize(sf::Vector2f(20, 20));
 	rectankkeli.setFillColor(sf::Color::Black);
 	rectankkeli.setMass(999999);
+<<<<<<< HEAD
+	rectankkeli.setElasticity(0.5);
+	for (int i = 0; i < 25; i++)
+=======
 	rectankkeli.setElasticity(1);
 	for (int i = 0; i < 50; i++)
+>>>>>>> origin/master
 	{
 		rectankkeli.setPosition(sf::Vector2f(rand() % 1200, rand() % 900));
 		world.objects.push_back(rectankkeli);
@@ -50,7 +55,11 @@ int main()
 			{
 				unsigned randomMass = rand() % 200;
 				sf::Vector2i mouse = sf::Mouse::getPosition(window);
+<<<<<<< HEAD
+				Rectangle uusRectankkeli(sf::Vector2f(mouse), sf::Vector2f(20, 20), 35, sf::Vector2f(0, 0), 0.5, randomMass, sf::Color::Green);
+=======
 				Rectangle uusRectankkeli(sf::Vector2f(mouse), sf::Vector2f(50, 50), 20, sf::Vector2f(0, 0), 0.5, randomMass, sf::Color::Green);
+>>>>>>> origin/master
 				uusRectankkeli.setOutlineThickness(1);
 				uusRectankkeli.setOutlineColor(sf::Color::Black);
 				world.objects.push_back(uusRectankkeli);
