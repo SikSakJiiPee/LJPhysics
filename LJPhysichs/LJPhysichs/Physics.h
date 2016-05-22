@@ -19,7 +19,7 @@ public:
 	bool getStatic();
 	void setStatic(bool s);
 
-
+	float dav = 0;
 	bool staticRectangle = false;
 	float mass = 10;
 	float elasticity = 0;

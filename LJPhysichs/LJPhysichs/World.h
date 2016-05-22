@@ -24,7 +24,7 @@ public:
 	std::vector<Rectangle>objects;
 
 private:
-	void collisionChecks();
+	void collisionChecks(float dt);
 
 	Collision collision;
 	sf::Vector2f gravity = { 0, 98.0665 };

@@ -16,16 +16,15 @@ void World::update(float dt)
 	{
 		if (!objects[i].getStatic())
 		{
-			rotation(i, dt);
-
+			objects[i].rotate(objects[i].dav);
 			objects[i].setVelocity(sf::Vector2f(objects[i].getVelocity().x + gravity.x * dt, objects[i].getVelocity().y + gravity.y * dt));
 			objects[i].setPosition(objects[i].getPosition().x + objects[i].getVelocity().x * dt, objects[i].getPosition().y + objects[i].getVelocity().y * dt);
 		}
 	}
-	collisionChecks();
+	collisionChecks(dt);
 }
 
-void World::collisionChecks()
+void World::collisionChecks(float dt)
 {
 	for (int i = 0; i < objects.size(); i++)
 	{
@@ -34,6 +33,8 @@ void World::collisionChecks()
 			if (collision.collide(&objects[i], &objects[j]))
 			{
 				collisionEffects(i, j);
+				rotation(i, dt);
+				rotation(j, dt);
 			}
 		}
 	}
@@ -91,67 +92,14 @@ void World::collisionEffects(unsigned i, unsigned j)
 
 void World::rotation(unsigned i, float dt)
 {
-	//objects[i].rotate();
+	float angle = 0;
+
+	if (objects[i].getVelocity().y == 0)
+	{
+		return;
+	}
+
+	angle = atan(objects[i].getVelocity().x / objects[i].getVelocity().y);
+	objects[i].dav = sqrt(objects[i].getVelocity().x * objects[i].getVelocity().x + objects[i].getVelocity().y * objects[i].getVelocity().y) * sin(angle) / objects[i].getSize().x;
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-float dav = 0, angle = 0, direction = 1;
-
-if (objects[i].getVelocity().y == 0)
-{
-	return;
-}
-
-angle = atan(objects[i].getVelocity().x / objects[i].getVelocity().y);
-dav = sqrt(objects[i].getVelocity().x * objects[i].getVelocity().x + objects[i].getVelocity().y * objects[i].getVelocity().y) * sin(angle) / objects[i].getSize().x;
-objects[i].setAngularVelocity(sf::Vector2f(objects[i].getAngularVelocity().x + dav * dt, objects[i].getAngularVelocity().y + dav * dt));
-if (objects[i].getVelocity().x < 0)
-{
-	direction = -1;
-}
-objects[i].rotate(direction * sqrt(objects[i].getAngularVelocity().x  * objects[i].getAngularVelocity().x + objects[i].getAngularVelocity().y * objects[i].getAngularVelocity().y));
-*/
-
