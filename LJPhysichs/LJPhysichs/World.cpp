@@ -52,10 +52,7 @@ void World::setGravity(const sf::Vector2f g)
 void World::collisionEffects(unsigned i, unsigned j)
 {
 	float angle = collision.getCollisionAngle(&objects[i], &objects[j]), elasticity, mass1 = objects[i].getMass(), mass2 = objects[j].getMass();
-<<<<<<< HEAD
 
-=======
->>>>>>> origin/master
 	sf::Vector2f v1bxy = objects[i].getVelocity(), v2bxy = objects[j].getVelocity(), v1axy, v2axy, v1bnt, v2bnt, v1ant, v2ant;
 
 	if (objects[i].getElasticity() < objects[j].getElasticity())
@@ -76,15 +73,12 @@ void World::collisionEffects(unsigned i, unsigned j)
 	v1axy = sf::Vector2f(v1ant.x * cos(angle) + v1ant.y * -sin(angle), v1ant.x * sin(angle) + v1ant.y * cos(angle));
 	v2axy = sf::Vector2f(v2ant.x * cos(angle) + v2ant.y * -sin(angle), v2ant.x * sin(angle) + v2ant.y * cos(angle));
 
-<<<<<<< HEAD
 	if (!objects[i].getStatic() && !objects[j].getStatic())
 	{
 		v1axy.x *= -1;
 		v2axy.x *= -1;
 	}
 
-=======
->>>>>>> origin/master
 	if (!objects[i].getStatic())
 	{
 		objects[i].setVelocity(v1axy);
@@ -97,7 +91,6 @@ void World::collisionEffects(unsigned i, unsigned j)
 
 void World::rotation(unsigned i, float dt)
 {
-<<<<<<< HEAD
 	//objects[i].rotate();
 }
 
@@ -161,24 +154,4 @@ if (objects[i].getVelocity().x < 0)
 }
 objects[i].rotate(direction * sqrt(objects[i].getAngularVelocity().x  * objects[i].getAngularVelocity().x + objects[i].getAngularVelocity().y * objects[i].getAngularVelocity().y));
 */
-=======
-	float dav = 0, angle = 0, direction = 1;
-	if (objects[i].getVelocity().y > 0)
-	{
-		angle = atan(objects[i].getVelocity().x / objects[i].getVelocity().y);
-		dav = sqrt(objects[i].getVelocity().x * objects[i].getVelocity().x + objects[i].getVelocity().y + objects[i].getVelocity().y) * angle / objects[i].getSize().x;
-	}
-	if (angle >= 0)
-	{
-		direction = 1;
-	}
-	else
-	{
-		direction = -1;
-	}
 
-	objects[i].setAngularVelocity(sf::Vector2f(objects[i].getAngularVelocity().x + dav * dt, objects[i].getAngularVelocity().y + dav * dt));
-	objects[i].rotate(direction * sqrt(objects[i].getAngularVelocity().x  * objects[i].getAngularVelocity().x + objects[i].getAngularVelocity().y * objects[i].getAngularVelocity().y));
-
-}
->>>>>>> origin/master

@@ -101,7 +101,6 @@ void Collision::normalize(sf::Vector2f& vector) {
 }
 
 float Collision::dot(sf::Vector2f& vector1, sf::Vector2f& vector2)
-<<<<<<< HEAD
 {
 	return vector1.x*vector2.x + vector1.y*vector2.y;
 }
@@ -115,25 +114,9 @@ float Collision::distance(float minA, float maxA, float minB, float maxB)
 	return minA - maxB;
 }
 
-void  Collision::project(sf::Vector2f& axis, rectangle* _rectangle, float &min, float &max)
-{
-=======
-{
-	return vector1.x*vector2.x + vector1.y*vector2.y;
-}
-
-float Collision::distance(float minA, float maxA, float minB, float maxB)
-{
-	if (minB > maxA)
-	{
-		return minB - maxA;
-	}
-	return minA - maxB;
-}
 
 void  Collision::project(sf::Vector2f& axis, rectangle* _rectangle, float &min, float &max)
 {
->>>>>>> origin/master
 	float myDot = dot(axis, _rectangle->vertex[0]);
 
 	min = myDot;
@@ -195,7 +178,6 @@ float Collision::getCollisionAngle(const sf::RectangleShape* rect, const sf::Rec
 	point2 = sf::Vector2f(tempVecMin2.x + (tempVecMax2.x - tempVecMin2.x) / 2, tempVecMin2.y + (tempVecMax2.y - tempVecMin2.y) / 2);
 
 	sf::Vector2f catheti = sf::Vector2f((point1.x - point2.x), (point1.y - point2.y));
-<<<<<<< HEAD
 
 	float angle = abs(atan(catheti.x / catheti.y));
 
@@ -218,16 +200,10 @@ float Collision::getCollisionAngle(const sf::RectangleShape* rect, const sf::Rec
 
 	std::cout << angle * 180 / 3.14 << std::endl;
 
-
-	return angle;
-=======
-
-	float angle = atan(catheti.x / catheti.y);
 	return angle;
 
 	//float angledegree = angle * 180 / 3.14;
 	//std::cout << angledegree << std::endl;
->>>>>>> origin/master
 }
 
 
