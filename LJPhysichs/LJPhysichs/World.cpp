@@ -32,9 +32,43 @@ void World::collisionChecks(float dt)
 		{
 			if (collision.collide(&objects[i], &objects[j]))
 			{
-				collisionEffects(i, j);
-				rotation(i, dt);
-				rotation(j, dt);
+				float angle = collision.getCollisionAngle(&objects[i], &objects[j]), elasticity, mass1 = objects[i].getMass(), mass2 = objects[j].getMass();
+				sf::Vector2f v1bxy = objects[i].getVelocity(), v2bxy = objects[j].getVelocity(), v1axy, v2axy, v1bnt, v2bnt, v1ant, v2ant, nollavektori;
+				nollavektori = sf::Vector2f(0.0, 0.0);
+
+				if (objects[i].getElasticity() < objects[j].getElasticity())
+				{
+					elasticity = objects[i].getElasticity();
+				}
+				else
+				{
+					elasticity = objects[j].getElasticity();
+				}
+
+				v1bnt = sf::Vector2f(v1bxy.x * cos(angle) + v1bxy.y * sin(angle), v1bxy.x * -sin(angle) + v1bxy.y * cos(angle));
+				v2bnt = sf::Vector2f(v2bxy.x * cos(angle) + v2bxy.y * sin(angle), v2bxy.x * -sin(angle) + v2bxy.y * cos(angle));
+
+				v1ant = sf::Vector2f((mass1 - elasticity * mass2) / (mass1 + mass2) * v1bnt.x + ((1 + elasticity)*mass2) / (mass1 + mass2) * v2bnt.x, v1bnt.y);
+				v2ant = sf::Vector2f(((1 + elasticity)*mass1) / (mass1 + mass2) * v1bnt.x + (mass2 - elasticity * mass1) / (mass1 + mass2) * v2bnt.x, v2bnt.y);
+
+				v1axy = sf::Vector2f(v1ant.x * cos(angle) + v1ant.y * -sin(angle), v1ant.x * sin(angle) + v1ant.y * cos(angle));
+				v2axy = sf::Vector2f(v2ant.x * cos(angle) + v2ant.y * -sin(angle), v2ant.x * sin(angle) + v2ant.y * cos(angle));
+
+				//if (v1bnt.x - v2bnt.x < nollavektori.x)
+				//if (v1ant.x - v2ant.x < nollavektori.x)
+				//if (v1axy.x - v2axy.x < nollavektori.x)
+				//if (v1bnt.x - v2bnt.x < nollavektori.x || v1axy.x - v2axy.x < nollavektori.x || v1bnt.y - v2bnt.y < nollavektori.y || v1axy.y - v2axy.y < nollavektori.y)
+				if (v1bnt.x - v2bnt.x < nollavektori.x || v1axy.x - v2axy.x < nollavektori.x)
+				
+				//if (v1bnt.y - v2bnt.y < nollavektori.y)
+				//if (v1ant.y - v2ant.y < nollavektori.y)
+				//if (v1axy.y - v2axy.y < nollavektori.y)
+				//if (v1ant.y - v2ant.y < nollavektori.y || v1axy.y - v2axy.y < nollavektori.y)
+				{
+					collisionEffects(i, j);
+					rotation(i, dt);
+					rotation(j, dt);
+				}
 			}
 		}
 	}
