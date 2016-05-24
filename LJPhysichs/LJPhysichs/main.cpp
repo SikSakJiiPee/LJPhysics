@@ -27,7 +27,7 @@ int main()
 	rectankkeli.setFillColor(sf::Color::Black);
 	rectankkeli.setMass(999999);
 	rectankkeli.setElasticity(0.5);
-	for (int i = 0; i < 25; i++)
+	for (int i = 0; i < 15; i++)
 	{
 		rectankkeli.setPosition(sf::Vector2f(rand() % 1200, rand() % 900));
 		world.objects.push_back(rectankkeli);

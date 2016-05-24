@@ -198,7 +198,7 @@ float Collision::getCollisionAngle(const sf::RectangleShape* rect, const sf::Rec
 		angle = -(90 * 3.14 / 180 - angle);
 	}
 
-	std::cout << angle * 180 / 3.14 << std::endl;
+	//std::cout << angle * 180 / 3.14 << std::endl;
 
 	return angle;
 
